@@ -9,7 +9,7 @@ const app = express();
 
 const port = 5000;
 app.use(cors({
-  origin: 'https://mass-mailer-7hzo.vercel.app', // Replace with your frontend's actual domain
+  origin: 'https://mass-mailer-frontend.vercel.app', // Replace with your frontend's actual domain
   credentials: true,
 }));
 app.use(bodyParser.json()); 
