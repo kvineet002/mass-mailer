@@ -1,21 +1,20 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
-const speakeasy = require('speakeasy');
+// const speakeasy = require('speakeasy');
 const cors = require('cors');
 const bodyParser = require('body-parser'); 
-const csvtojson = require('csvtojson');
-const multer = require('multer');
+// const multer = require('multer');
 
 const app = express();
 
 const port = 5000;
 app.use(cors({
-  origin: 'http://localhost:3001', // Replace with your frontend's actual domain
+  origin: 'http://localhost:3000', // Replace with your frontend's actual domain
   credentials: true,
 }));
 app.use(bodyParser.json()); 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+// const storage = multer.memoryStorage();
+// const upload = multer({ storage: storage });
 
 const transporter = nodemailer.createTransport({
   service: 'Gmail',
@@ -25,34 +24,21 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const globalSecret = speakeasy.generateSecret();
-app.post('/upload', upload.single('file'), async(req, res) => {
- try{ const fileBuffer = req.file.buffer.toString('utf8');
-
-  const jsonArray = await csvtojson().fromString(fileBuffer);
-
-  console.log(jsonArray);
-
-
-  res.status(200).send('File uploaded and converted to JSON successfully');}
-
-catch (error) {
-  console.error('Error processing file:', error);
-  res.status(500).send('Error processing file');
-}});
+// const globalSecret = speakeasy.generateSecret();
 app.post('/send-email', (req, res) => {
   const { email,Message } = req.body;
 
-  const token = speakeasy.totp({
-    secret: globalSecret.base32,
-    encoding: 'base32',
-  });
+  // const token = speakeasy.totp({
+  //   secret: globalSecret.base32,
+  //   encoding: 'base32',
+  // });
+  console.log(email)
 
   const mailOptions = {
-    from: '<vineetalp002@gmail.com>',
+    from: "vineetalp002@gmail.com",
     to: email,
-    subject: 'Your OTP Code',
-    html: `${Message} ${token}`,
+    subject: 'You got a message!!',
+    html: `${Message}`,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
